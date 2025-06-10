@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>Meeting Recorder</string>
+    
+    <key>CFBundleDisplayName</key>
+    <string>Meeting Recorder</string>
+    
+    <key>CFBundleIdentifier</key>
+    <string>com.meetingrecorder.macos</string>
+    
+    <key>CFBundleVersion</key>
+    <string>1.0</string>
+    
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    
+    <key>CFBundleExecutable</key>
+    <string>MacOSApp</string>
+    
+    <!-- Permissão para microfone -->
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Este aplicativo precisa de acesso ao microfone para gravar reuniões e capturar sua voz durante as sessões.</string>
+    
+    <!-- Permissão para captura de áudio do sistema (macOS 14.4+) -->
+    <key>NSAudioCaptureUsageDescription</key>
+    <string>Este aplicativo precisa de acesso ao áudio do sistema para gravar o som de aplicativos, música, vídeos e notificações durante as reuniões, fornecendo uma gravação completa da sessão.</string>
+    
+    <!-- Permissão para Screen Recording (necessária para system audio) -->
+    <key>NSSystemAdministrationUsageDescription</key>
+    <string>Este aplicativo precisa de permissão de gravação de tela para capturar o áudio do sistema durante as reuniões. Apenas o áudio será capturado, não a imagem da tela.</string>
+    
+    <key>NSScreenCaptureDescription</key>
+    <string>Este aplicativo usa a funcionalidade de captura de tela apenas para gravar o áudio do sistema durante reuniões. Nenhuma imagem da tela é gravada ou armazenada.</string>
+    
+    <!-- Versão mínima do macOS -->
+    <key>LSMinimumSystemVersion</key>
+    <string>13.0</string>
+    
+    <!-- Categoria do aplicativo -->
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.productivity</string>
+    
+    <!-- Suporte a alta resolução -->
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    
+    <!-- Copyright -->
+    <key>NSHumanReadableCopyright</key>
+    <string>© 2025 Meeting Recorder. Todos os direitos reservados.</string>
+</dict>
+</plist> 
