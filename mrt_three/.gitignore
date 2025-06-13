@@ -1,0 +1,55 @@
+# macOS
+.DS_Store
+
+# Xcode
+xcuserdata/
+*.xcuserstate
+*.xcworkspace/
+DerivedData/
+build/
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Model files (grandes)
+*.onnx
+*.model
+*.weights
+*.bin
+
+# Pasta de modelos e backend (incluindo arquivos específicos)
+mrt_bcknd_macos_app/build/
+mrt_bcknd_macos_app/models/
+mrt_bcknd_macos_app/build/**
+mrt_bcknd_macos_app/models/**
+mrt_bcknd_macos_app/src/pipeline-optimized-small
+*.onnx
+**/libonnxruntime.a
+**/*.int8.onnx
+*.a
+**/*.a
+*.zip
+**/*.zip
+*.ort
+**/*.ort
+*.wav
+**/*.wav
+**/compiler_depend.*
+**/ru_listx
+
+# Arquivos de cache
+*.cache
+*.tmp
+*.log
+
+# Arquivos de dependências e libs
+libs/
+
+# Objetos e binários compilados
+*.o
+*.a
+*.so
+*.dylib
+*.framework
+*.xcframework 

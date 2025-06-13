@@ -1,0 +1,14 @@
+{
+    "audioFile": "./audio_en_test.wav",
+    "modelsBasePath": "./models",
+    "targetSampleRate": 16000.0,
+    "numSpeakers": 0,
+    "whisperModelSize": "small",
+    "asrProvider": "cpu",
+    "diarizationProvider": "cpu", 
+    "denoiseProvider": "cpu",
+    "numThreads": 4,
+    "enableDenoise": true,
+    "enableParallelProcessing": true,
+    "optimizedChunkSize": 15.0
+}

@@ -1,0 +1,80 @@
+# Fastfile para automatizar assinatura do Core Audio TAP XPC
+
+default_platform(:mac)
+
+platform :mac do
+  desc "Configurar e assinar aplicação para XPC real"
+  lane :setup_xpc_real do
+    puts "🚀 Configurando Core Audio TAP XPC Real com Fastlane..."
+    
+    # 1. Verificar se há certificados de desenvolvimento
+    begin
+      certs = sh("security find-identity -v -p codesigning | grep 'Apple Development\\|Mac Developer'")
+      if certs.empty?
+        UI.user_error!("❌ Nenhum certificado de desenvolvimento encontrado. Configure sua conta no Xcode primeiro.")
+      end
+      UI.success("✅ Certificados encontrados")
+    rescue
+      UI.user_error!("❌ Erro ao verificar certificados. Configure sua conta no Xcode.")
+    end
+    
+    # 2. Compilar aplicação
+    puts "🔧 Compilando aplicação..."
+    sh("./build_production.sh")
+    
+    # 3. Configurar assinatura automática
+    app_path = "MRTThree_Production.app"
+    
+    # Usar match para gerenciar certificados (opcional)
+    # match(type: "development", app_identifier: "com.meetingrecorder.MRTThree")
+    
+    # 4. Assinar Helper Tool
+    puts "✍️  Assinando Helper Tool..."
+    sh("codesign --force --sign 'Apple Development' --options runtime '#{app_path}/Contents/Library/LaunchServices/AudioCaptureHelper'")
+    
+    # 5. Assinar aplicação principal
+    puts "✍️  Assinando aplicação..."
+    sh("codesign --force --sign 'Apple Development' --options runtime --deep '#{app_path}'")
+    
+    # 6. Verificar assinaturas
+    puts "🔍 Verificando assinaturas..."
+    sh("codesign -v '#{app_path}/Contents/Library/LaunchServices/AudioCaptureHelper'")
+    sh("codesign -v '#{app_path}'")
+    
+    UI.success("🎉 XPC Real configurado e assinado com sucesso!")
+    puts ""
+    puts "🚀 Teste executando: open #{app_path}"
+  end
+  
+  desc "Verificar status de assinatura"
+  lane :verify_signing do
+    app_path = "MRTThree_Production.app"
+    
+    puts "🔍 Verificando status de assinatura..."
+    
+    begin
+      sh("codesign -v -d '#{app_path}'")
+      UI.success("✅ Aplicação principal: Assinatura válida")
+    rescue
+      UI.error("❌ Aplicação principal: Assinatura inválida")
+    end
+    
+    begin
+      sh("codesign -v -d '#{app_path}/Contents/Library/LaunchServices/AudioCaptureHelper'")
+      UI.success("✅ Helper Tool: Assinatura válida")
+    rescue
+      UI.error("❌ Helper Tool: Assinatura inválida")
+    end
+  end
+  
+  desc "Limpar e recompilar tudo"
+  lane :clean_rebuild do
+    puts "🧹 Limpando build anterior..."
+    sh("rm -rf .build MRTThree_Production.app")
+    
+    puts "🔧 Recompilando..."
+    sh("./build_production.sh")
+    
+    UI.success("✅ Rebuild completo")
+  end
+end

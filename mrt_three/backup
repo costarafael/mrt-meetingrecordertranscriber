@@ -1,0 +1,91 @@
+#!/bin/bash
+
+# Script de Backup do Projeto Swift Recorder
+# Cria um backup limpo excluindo arquivos temporários e de build
+
+set -e  # Parar em caso de erro
+
+# Configurações
+PROJECT_NAME="test_recorder_swift"
+TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+BACKUP_NAME="${PROJECT_NAME}_backup_${TIMESTAMP}"
+TEMP_DIR="/tmp/${BACKUP_NAME}"
+CURRENT_DIR=$(pwd)
+PARENT_DIR=$(dirname "$CURRENT_DIR")
+BACKUP_ZIP="${PARENT_DIR}/${BACKUP_NAME}.zip"
+
+echo "🗂️  Iniciando backup do projeto..."
+echo "📅 Timestamp: $TIMESTAMP"
+echo "📁 Diretório atual: $CURRENT_DIR"
+echo "💾 Backup será salvo em: $BACKUP_ZIP"
+
+# Limpar diretório temporário se existir
+if [ -d "$TEMP_DIR" ]; then
+    echo "🧹 Limpando diretório temporário..."
+    rm -rf "$TEMP_DIR"
+fi
+
+# Criar diretório temporário
+mkdir -p "$TEMP_DIR"
+
+echo "📋 Copiando arquivos (excluindo temporários e builds)..."
+
+# Usar rsync para copiar com exclusões
+rsync -av \
+    --exclude='.build/' \
+    --exclude='MacOSApp.app/' \
+    --exclude='MacOSApp.dmg' \
+    --exclude='.DS_Store' \
+    --exclude='*.dmg' \
+    --exclude='*.app' \
+    --exclude='.git/' \
+    --exclude='*.xcworkspace' \
+    --exclude='*.xcodeproj' \
+    --exclude='DerivedData/' \
+    --exclude='*.swp' \
+    --exclude='*.tmp' \
+    --exclude='*~' \
+    --exclude='.swiftpm/' \
+    --exclude='*.lock' \
+    --exclude='node_modules/' \
+    --exclude='*.log' \
+    --exclude='Thumbs.db' \
+    --exclude='desktop.ini' \
+    --exclude='*.onnx' \
+    "$CURRENT_DIR/" "$TEMP_DIR/"
+
+echo "📦 Criando arquivo ZIP..."
+
+# Entrar no diretório pai do temporário para criar zip sem path completo
+cd "$(dirname "$TEMP_DIR")"
+zip -r "$BACKUP_ZIP" "$(basename "$TEMP_DIR")" > /dev/null
+
+echo "🧹 Limpando arquivos temporários..."
+rm -rf "$TEMP_DIR"
+
+# Verificar se o backup foi criado com sucesso
+if [ -f "$BACKUP_ZIP" ]; then
+    BACKUP_SIZE=$(du -h "$BACKUP_ZIP" | cut -f1)
+    echo "✅ Backup criado com sucesso!"
+    echo "📦 Arquivo: $BACKUP_ZIP"
+    echo "📏 Tamanho: $BACKUP_SIZE"
+    echo ""
+    echo "📋 Conteúdo do backup:"
+    echo "   • Código fonte (Sources/)"
+    echo "   • Configurações (Package.swift, Info.plist)"
+    echo "   • Documentação (*.md)"
+    echo "   • Scripts e arquivos de configuração"
+    echo ""
+    echo "❌ Excluídos:"
+    echo "   • .build/ (arquivos de build)"
+    echo "   • MacOSApp.app/ (aplicação compilada)"
+    echo "   • *.dmg (instaladores)"
+    echo "   • .DS_Store (metadados do macOS)"
+    echo "   • Arquivos temporários"
+    echo "   • mrt_bcknd_macos_app/models/**/*.onnx (modelos de ML)"
+else
+    echo "❌ Erro: Backup não foi criado!"
+    exit 1
+fi
+
+echo "🎉 Backup concluído com sucesso!" 

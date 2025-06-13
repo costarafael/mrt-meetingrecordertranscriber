@@ -1,0 +1,11 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+✅ Single Responsibility: Cada arquivo tem responsabilidade única
+✅ DRY Principle: Sem duplicações desnecessárias  
+✅ Separation of Concerns: Concerns bem separados
+✅ Protocol-Oriented: Interfaces compartilhadas adequadamente
+✅ Dependency Injection: Dependencies bem organizadas
+SOLID Principles aplicados corretamente

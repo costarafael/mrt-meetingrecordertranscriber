@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
+    <key>CFBundleExecutable</key>
+    <string>CoreAudioTapReal</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.empresa.CoreAudioTapReal</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>CoreAudioTapReal</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>14.0</string>
+    <key>NSPrincipalClass</key>
+    <string>NSApplication</string>
+    
+    <!-- Descrição para permissão de captura de áudio -->
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Esta aplicação precisa acessar o microfone para demonstrar a captura de áudio do sistema.</string>
+    
+    <!-- Helper tool privilegiada autorizada -->
+    <key>SMPrivilegedExecutables</key>
+    <dict>
+        <key>com.empresa.CoreAudioTapReal.AudioCaptureHelper</key>
+        <string>identifier "com.empresa.CoreAudioTapReal.AudioCaptureHelper" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "TEAM_ID_PLACEHOLDER"</string>
+    </dict>
+</dict>
+</plist>

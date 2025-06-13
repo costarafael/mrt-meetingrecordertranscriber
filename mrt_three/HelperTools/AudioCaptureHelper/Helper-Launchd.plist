@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Label único do job - DEVE corresponder ao bundle identifier da helper -->
+    <key>Label</key>
+    <string>com.empresa.CoreAudioTapReal.AudioCaptureHelper</string>
+    
+    <!-- Serviços Mach para comunicação XPC -->
+    <key>MachServices</key>
+    <dict>
+        <!-- Nome do serviço DEVE ser igual ao Label -->
+        <key>com.empresa.CoreAudioTapReal.AudioCaptureHelper</key>
+        <true/>
+    </dict>
+    
+    <!-- Executar sob demanda quando conexão XPC for estabelecida -->
+    <key>LaunchOnlyOnce</key>
+    <false/>
+    
+    <!-- Executar com privilégios de root -->
+    <key>RunAtLoad</key>
+    <false/>
+    
+    <!-- Manter rodando se crashar -->
+    <key>KeepAlive</key>
+    <false/>
+    
+    <!-- Log output (opcional, para debug) -->
+    <key>StandardOutPath</key>
+    <string>/tmp/AudioCaptureHelper.stdout</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/AudioCaptureHelper.stderr</string>
+</dict>
+</plist>

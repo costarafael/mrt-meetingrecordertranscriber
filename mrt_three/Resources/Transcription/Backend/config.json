@@ -1,0 +1,89 @@
+{
+  "pipeline_info": {
+    "name": "SherpaONNX Backend for macOS",
+    "version": "1.0.0",
+    "optimized_for": "Apple Silicon M1/M2",
+    "language": "Portuguese",
+    "features": [
+      "Speaker Diarization",
+      "Speech Recognition", 
+      "Noise Reduction",
+      "Real-time Processing"
+    ]
+  },
+  "models": {
+    "whisper": {
+      "size": "small",
+      "encoder": "models/sherpa-onnx-whisper-small/small-encoder.int8.onnx",
+      "decoder": "models/sherpa-onnx-whisper-small/small-decoder.int8.onnx",
+      "tokens": "models/sherpa-onnx-whisper-small/small-tokens.txt"
+    },
+    "diarization": {
+      "segmentation": "models/sherpa-onnx-pyannote-segmentation-3-0/segmentation-model.onnx",
+      "embedding": "models/3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx"
+    },
+    "denoise": {
+      "model": "models/gtcrn_simple.onnx"
+    }
+  },
+  "performance": {
+    "m1_air": {
+      "threads": 4,
+      "chunk_size": 15.0,
+      "expected_speedup": "1.6x"
+    },
+    "m1_pro": {
+      "threads": 6,
+      "chunk_size": 20.0,
+      "expected_speedup": "2.2x"
+    },
+    "m2_pro": {
+      "threads": 8,
+      "chunk_size": 25.0,
+      "expected_speedup": "2.5x"
+    }
+  },
+  "settings": {
+    "default": {
+      "language": "pt",
+      "auto_detect_speakers": true,
+      "enable_denoise": true,
+      "provider": "cpu",
+      "sample_rate": 16000
+    },
+    "quality_modes": {
+      "maximum_speed": {
+        "enable_denoise": false,
+        "chunk_size": 30.0,
+        "description": "Fastest processing, good quality"
+      },
+      "balanced": {
+        "enable_denoise": true,
+        "chunk_size": 15.0,
+        "description": "Good balance of speed and quality"
+      },
+      "maximum_quality": {
+        "enable_denoise": true,
+        "chunk_size": 10.0,
+        "description": "Best quality, slower processing"
+      }
+    }
+  },
+  "paths": {
+    "executable": "src/pipeline-main.sh",
+    "models_dir": "models/",
+    "libs_dir": "build/build-swift-macos/install/lib/",
+    "test_script": "test-pipeline.sh"
+  },
+  "usage": {
+    "basic": "cd src && ./pipeline-main.sh small",
+    "test": "./test-pipeline.sh",
+    "custom_audio": "Edit audioFile path in src/pipeline-main.sh"
+  },
+  "integration": {
+    "swift_import": "import Foundation",
+    "process_call": "Process().executableURL = URL(fileURLWithPath: \"./pipeline-main.sh\")",
+    "arguments": ["small"],
+    "output_format": "Segmented transcription with speaker IDs and timestamps"
+  }
+} 
